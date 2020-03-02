@@ -22,7 +22,14 @@ sequelize
 const User = UserModel(sequelize, Sequelize);
 const Blog = BlogModel(sequelize, Sequelize);
 
-Blog.belongsTo(User);
+Blog.belongsTo(User, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE'
+});
+User.hasMany(Blog, {
+  foreignKey: "userId",
+  onDelete: 'CASCADE'
+});
 
 //to create table automatically in psql
 sequelize.sync({force: true})

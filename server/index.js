@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Routes
 app.use('/', appRoute);
-app.use('/creator', userRoute);
+app.use('/user', userRoute);
 
 // 404 error  page
 app.get('/*', (req, res) => {

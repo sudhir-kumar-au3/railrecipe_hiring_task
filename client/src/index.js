@@ -1,12 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import './index.css';
-import App from './App';
+import App from './components/App';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
+import {store} from "./redux/store";
+import {Provider} from "react-redux";
+
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function Home() {
+    const doRedirect = () => {
+        let loggedIn = localStorage.getItem("user");
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+        if(loggedIn){
+            return <Redirect to="/app/home"/>;
+        }
+        else{
+            return <Redirect to="/login"/>;
+        }
+    }
+    return(
+        <Router>
+                <Route  path="/app" component={App}/>
+                <Route  path='/signup' component={SignUp}/>
+                <Route  path="/login" component={Login}/>
+                {doRedirect()}
+        </Router>
+    )
+}
+ReactDOM.render(<Provider store = {store}><Home /></Provider>, document.getElementById('root'));
+
 serviceWorker.unregister();

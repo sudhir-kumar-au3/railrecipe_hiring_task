@@ -1,3 +1,4 @@
+const {User} = require('../database/config');
 module.exports = (sequelize, datatype) => {
     const BlogModel = sequelize.define('blog',{
         blogId: {
@@ -12,8 +13,16 @@ module.exports = (sequelize, datatype) => {
         },
         cover: {
             type: datatype.STRING,
-            allowNull: false,
+            defaultValue: "https://cdn.pixabay.com/photo/2016/01/09/18/28/old-1130743_960_720.jpg",
             
+        },
+        userId: {
+            type: datatype.INTEGER,
+            references:{
+                model: User,
+                key: 'id'
+            },
+            allowNull: false
         },
         body: {
             type: datatype.TEXT,

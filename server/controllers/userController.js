@@ -81,8 +81,28 @@ const getUser = (req,res) =>{
     })
 }
 
+const addBlog = (req,res) => {
+    jwt.verify(req.token, `${process.env.SECRET}`, (error, authData) => {
+        if(error){
+            res.sendStatus(403);
+        }
+        else{
+            Blog.create(req.body)
+            .then(postData => {
+                 res.json({
+                     postData,
+                     authData
+                 })
+            })
+            .catch(error => {
+                res.status(500).json({error: error.message})
+            })
+        }
+    })
+}
 module.exports = {
     addUser,
     userLogin,
-    getUser
+    getUser,
+    addBlog
 }
